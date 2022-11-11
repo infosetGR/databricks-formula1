@@ -1,0 +1,61 @@
+{
+	"name": "pl_formula1_main",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline Ingest",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_formula1_ingest",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"p_window_end_date": {
+							"value": "@pipeline().parameters.p_window_end_date",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute Pipeline Transform",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline Ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_formula1_transform",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"p_window_end_date": {
+							"value": "@pipeline().parameters.p_window_end_date",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"concurrency": 1,
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-08T12:06:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,29 @@
+{
+	"name": "trigger2",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "pl_formula1_main",
+				"type": "PipelineReference"
+			},
+			"parameters": {
+				"p_window_end_date": "trigger().outputs.windowEndTime"
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Hour",
+			"interval": 168,
+			"startTime": "2022-11-08T14:08:00Z",
+			"endTime": "2022-11-09T14:08:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": []
+		}
+	}
+}
